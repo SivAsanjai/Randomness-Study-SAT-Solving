@@ -3,12 +3,7 @@
 import os
 
 def load_cnf_file(filepath):
-    """
-    Loads a single CNF file.
-
-    :param filepath: Path to the CNF file.
-    :return: Tuple (clauses, num_vars, num_clauses)
-    """
+   
     clauses = []
     num_vars = 0
     num_clauses = 0
@@ -29,13 +24,7 @@ def load_cnf_file(filepath):
     return clauses, num_vars, num_clauses
 
 def load_sat_instances(directory):
-    """
-    Loads all SAT instances from a directory.
-
-    :param directory: Path to the directory containing CNF files.
-    :return: List of SAT instances, each as a dictionary with keys:
-             'filename', 'clauses', 'num_vars', 'num_clauses'
-    """
+    
     instances = []
     for filename in os.listdir(directory):
         if filename.endswith(".cnf"):
