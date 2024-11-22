@@ -11,9 +11,9 @@ import subprocess
 from collections import defaultdict
 
 def run_pure_random_experiment(instances, max_flips=10000, restart_frequency=1000):
-    """
-    Runs the purely random SAT solver (p=0.0) on all instances.
-    """
+    
+    #Runs the purely random SAT solver (p=0.0) on all instances.
+    
     p = 0.0
     results = {'success': 0, 'flips': [], 'time': []}
     print("Running Purely Random Solver (p=0.0)...")
@@ -43,9 +43,9 @@ def run_pure_random_experiment(instances, max_flips=10000, restart_frequency=100
     return results
 
 def run_pure_greedy_experiment(instances, max_flips=10000, restart_frequency=1000, adaptive_p=False):
-    """
-    Runs the purely greedy SAT solver (p=1.0) on all instances.
-    """
+    
+    #Runs the purely greedy SAT solver (p=1.0) on all instances.
+    
     p = 1.0
     results = {'success': 0, 'flips': [], 'time': []}
     print("Running Purely Greedy Solver (p=1.0)...")
@@ -75,9 +75,9 @@ def run_pure_greedy_experiment(instances, max_flips=10000, restart_frequency=100
     return results
 
 def benchmark_minisat(instances, solver='minisat', max_time=300):
-    """
-    Runs MiniSAT on all instances and records performance.
-    """
+    
+    #Runs MiniSAT on all instances and records performance.
+    
     benchmark_results = {
         'success': 0,
         'timeouts': 0,
@@ -121,9 +121,7 @@ def benchmark_minisat(instances, solver='minisat', max_time=300):
     return benchmark_results
 
 def analyze_comparative_results(random_results, greedy_results, minisat_results, total_instances, output_dir='results'):
-    """
-    Analyzes and plots the comparative experiment results.
-    """
+    
     
     os.makedirs(output_dir, exist_ok=True)
 
