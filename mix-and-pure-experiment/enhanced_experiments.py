@@ -11,16 +11,7 @@ import subprocess
 from collections import defaultdict
 
 def run_experiment(instances, p_values, max_flips=10000, adaptive_p=False, restart_frequency=1000):
-    """
-    Runs experiments varying p on the given SAT instances with optional adaptive p and restarts.
 
-    :param instances: List of SAT instances.
-    :param p_values: List of p values to test.
-    :param max_flips: Maximum number of flips per solver run.
-    :param adaptive_p: Boolean indicating whether to use adaptive p.
-    :param restart_frequency: Number of flips after which to restart.
-    :return: Dictionary of results.
-    """
     results = {p: {'success': 0, 'flips': [], 'time': []} for p in p_values}
 
     for idx, instance in enumerate(instances):
@@ -50,14 +41,8 @@ def run_experiment(instances, p_values, max_flips=10000, adaptive_p=False, resta
     return results
 
 def analyze_results(results, total_instances, output_dir='results'):
-    """
-    Analyzes and plots the experiment results.
-
-    :param results: Dictionary of results from run_experiment.
-    :param total_instances: Total number of SAT instances.
-    :param output_dir: Directory to save the result plots.
-    """
-    # Ensure the output directory exists
+  
+   
     os.makedirs(output_dir, exist_ok=True)
 
     p_values = sorted(results.keys())
@@ -98,14 +83,7 @@ def analyze_results(results, total_instances, output_dir='results'):
     print(f'Results saved to {plot_path}')
 
 def benchmark_standard_solver(instances, solver='minisat', max_time=300):
-    """
-    Runs a standard SAT solver on all instances and records performance.
-
-    :param instances: List of SAT instances.
-    :param solver: SAT solver executable name.
-    :param max_time: Maximum time allowed per instance in seconds.
-    :return: Dictionary with solver performance metrics.
-    """
+  
     benchmark_results = {
         'success': 0,
         'timeouts': 0,
@@ -117,7 +95,7 @@ def benchmark_standard_solver(instances, solver='minisat', max_time=300):
         print(f"Benchmarking solver on instance {idx+1}/{len(instances)}: {instance['filename']}")
         start_time = time.time()
         try:
-            # Run the solver with a timeout
+            
             result = subprocess.run(
                 [solver, cnf_file],
                 capture_output=True,
@@ -143,18 +121,11 @@ def benchmark_standard_solver(instances, solver='minisat', max_time=300):
     return benchmark_results
 
 def benchmark_and_compare(instances, solver='minisat', max_time=300, output_dir='results'):
-    """
-    Benchmarks a standard SAT solver and compares it with the hybrid solver.
-
-    :param instances: List of SAT instances.
-    :param solver: SAT solver executable name.
-    :param max_time: Maximum time allowed per instance in seconds.
-    :param output_dir: Directory to save the result plots.
-    """
+    
     print("Starting comparative benchmarking with standard SAT solver...")
     benchmark_results = benchmark_standard_solver(instances, solver=solver, max_time=max_time)
 
-    # Plot benchmarking results
+    # Plot 
     os.makedirs(output_dir, exist_ok=True)
     plt.figure(figsize=(10, 5))
 
@@ -186,48 +157,7 @@ def benchmark_and_compare(instances, solver='minisat', max_time=300, output_dir=
 
     return benchmark_results
 
-def perform_statistical_analysis(hybrid_results, benchmark_results, p_values, output_dir='results'):
-    """
-    Performs statistical analysis to determine the significance of performance differences.
 
-    :param hybrid_results: Dictionary of hybrid solver results.
-    :param benchmark_results: Dictionary of standard solver results.
-    :param p_values: List of p values tested.
-    :param output_dir: Directory to save the analysis plots.
-    """
-    import scipy.stats as stats
-
-    os.makedirs(output_dir, exist_ok=True)
-
-    # Example: Compare average time at each p with standard solver's average time
-    standard_avg_time = np.mean(benchmark_results['time']) if benchmark_results['time'] else 0
-
-    p_vals = []
-    t_stats = []
-    p_stat_vals = []
-
-    for p in p_values:
-        hybrid_time = hybrid_results[p]['time']
-        if len(hybrid_time) > 1 and len(benchmark_results['time']) > 1:
-            t_stat, p_val = stats.ttest_ind(hybrid_time, benchmark_results['time'], equal_var=False)
-            p_vals.append(p)
-            t_stats.append(t_stat)
-            p_stat_vals.append(p_val)
-
-    # Plot p-values of t-tests
-    plt.figure(figsize=(10, 5))
-    plt.plot(p_vals, p_stat_vals, marker='o')
-    plt.axhline(y=0.05, color='r', linestyle='--', label='Significance Level (0.05)')
-    plt.title('P-Values from t-tests Comparing Hybrid Solver Time to Standard Solver')
-    plt.xlabel('p (Probability of Greedy Move)')
-    plt.ylabel('P-Value')
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plot_path = os.path.join(output_dir, 'statistical_analysis_pvalues.png')
-    plt.savefig(plot_path)
-    plt.show()
-    print(f'Statistical analysis p-values plot saved to {plot_path}')
 
 def main():
     import argparse
@@ -260,7 +190,7 @@ def main():
         print(f"No CNF files found in '{args.cnf_dir}'. Please generate SAT instances first.")
         return
 
-    # Run hybrid solver experiments
+    
     print("Running hybrid solver experiments...")
     hybrid_results = run_experiment(
         instances,
@@ -271,10 +201,10 @@ def main():
     )
     print("Hybrid solver experiments completed.\n")
 
-    # Analyze and plot hybrid results
+    
     analyze_results(hybrid_results, total_instances, output_dir=args.output_dir)
 
-    # Run comparative benchmarking if specified
+    
     if args.benchmark_solver:
         benchmark_results = benchmark_and_compare(
             instances,
@@ -283,14 +213,7 @@ def main():
             output_dir=args.output_dir
         )
 
-        # Perform statistical analysis if specified
-        if args.stat_analysis:
-            perform_statistical_analysis(
-                hybrid_results,
-                benchmark_results,
-                p_values,
-                output_dir=args.output_dir
-            )
+       
 
 if __name__ == "__main__":
     main()
