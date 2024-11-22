@@ -10,8 +10,8 @@ Investigates the role of randomness in SAT-solving by implementing purely random
 
 **Components:**
 -  **`sat_solver.py`**: Implements the hybrid SAT solver with random and greedy strategies.
--  `generate_sat.py`: Machine generated to generate SAT instances in DIMACS CNF format.
-- `utils.py`: Utility functions for loading and managing SAT instances.
+-  `generate_sat.py`: Machine generated code to generate SAT instances in DIMACS CNF format.
+- `utils.py`: Util functions for loading and managing SAT instances.
 - `experiments.py`: experiment code where we can vary the p values as needed.
 - `sat_instances/`: Directory containing generated CNF files.
 - `results/`: Directory where experiment results and plots are saved.
