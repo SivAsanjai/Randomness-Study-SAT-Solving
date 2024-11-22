@@ -20,7 +20,6 @@ Investigates the role of randomness in SAT-solving by implementing purely random
 
 ### 2. Mixed and Variable Experiment
 
-**Directory:** `enhanced_sat_experiment/`
 
 **Purpose:**  
 Introducing additional randomness strategies, and mixed random-greedy approaches.
